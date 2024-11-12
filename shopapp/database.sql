@@ -40,7 +40,7 @@ CREATE TABLE social_accounts(
     id INT PRIMARY KEY AUTO_INCREMENT,
     provider VARCHAR(20)  NOT NULL COMMENT 'tên nhà social network',
     provider_id VARCHAR(50)  NOT NULL,
-    email VARCHAR(150) NOT NULL COMMENT 'Email tai khoan nguoi dung'
+    email VARCHAR(150) NOT NULL COMMENT 'Email tai khoan nguoi dung',
     name VARCHAR(100) NOT NULL COMMENT 'ten nguoi dung',
     user_id INT,
     FOREIGN KEY (user_id) REFERENCES users(id)
