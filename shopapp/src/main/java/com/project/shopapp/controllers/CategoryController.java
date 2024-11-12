@@ -18,20 +18,21 @@ public class CategoryController {
     // Hiện tất cả các categories
     @GetMapping("") // http://localhost:8088/api/v1/categories?page=1&limit=10
     public ResponseEntity<String> getAllCategories(
-        @RequestParam("page")   int page,
-        @RequestParam("limit")  int limit
-    ){
+            @RequestParam("page") int page,
+            @RequestParam("limit") int limit
+    ) {
         return ResponseEntity.ok(String.format("Đây là getAllCategories, page = %d, limit = %d  ", page, limit));
     }
+
     @PostMapping("")
     // Nếu tham số truyền vào là 1 object thì sao ? => data transfer object = request object
     public ResponseEntity<?> insertCategory(
-            @Valid @RequestBody  CategoryDTO categoryDTO,
+            @Valid @RequestBody CategoryDTO categoryDTO,
             BindingResult result
-    ){
+    ) {
         // check null không có dữ liệu
-        if(result.hasErrors()){
-            List<String> errMessages =  result.getFieldErrors()
+        if (result.hasErrors()) {
+            List<String> errMessages = result.getFieldErrors()
                     .stream()
                     .map(FieldError::getDefaultMessage)
                     .toList();
@@ -39,12 +40,14 @@ public class CategoryController {
         }
         return ResponseEntity.ok("Thêm mới Category" + categoryDTO);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<String> updateCategory(@PathVariable long id){
-        return ResponseEntity.ok("Cập nhật Category with id = " + id );
+    public ResponseEntity<String> updateCategory(@PathVariable long id) {
+        return ResponseEntity.ok("Cập nhật Category with id = " + id);
     }
+
     @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteCategory(@PathVariable long id){
-        return ResponseEntity.ok("Xóa Category with id = " + id );
+    public ResponseEntity<String> deleteCategory(@PathVariable long id) {
+        return ResponseEntity.ok("Xóa Category with id = " + id);
     }
 }
