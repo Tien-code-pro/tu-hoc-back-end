@@ -70,7 +70,7 @@ public class ProductController {
                     return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("File is too large! Maximum size is 10MB");
                 }
                 String contentType = file.getContentType();
-                if (contentType == null || contentType.startsWith("image/")) {
+                if (contentType == null || !contentType.startsWith("image/")) {
                     return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("file must be an image");
                 }
                 // Lưu file và cập nhật thumbnail trong DTO
