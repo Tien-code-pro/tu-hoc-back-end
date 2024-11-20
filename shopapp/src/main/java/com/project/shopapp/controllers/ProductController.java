@@ -50,7 +50,7 @@ public class ProductController {
     @PostMapping(value = "", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     // POST http://localhost:8088/api/v1/products
     public ResponseEntity<?> createProduct(
-            @Valid @RequestBody ProductDTO productDTO,
+            @Valid @ModelAttribute ProductDTO productDTO,
 //            @RequestPart("file") MultipartFile file,
             BindingResult result
     ) {
