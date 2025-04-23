@@ -2,8 +2,6 @@ package com.project.shopapp.controllers;
 
 import com.project.shopapp.dtos.*;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
