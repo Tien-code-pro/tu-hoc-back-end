@@ -1,10 +1,7 @@
 package com.project.shopapp.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.management.relation.Role;
 import java.util.Date;
@@ -15,6 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
 public class User extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,11 +38,11 @@ public class User extends BaseEntity {
 
     @Column(name = "facebook_account_id")
     private int facebookAccountId;
-    
+
     @Column(name = "google_account_id")
     private int googleAccountId;
 
     @ManyToOne
-    @Column(name = "role_id")
+    @JoinColumn(name = "role_id")
     private com.project.shopapp.models.Role role;
 }

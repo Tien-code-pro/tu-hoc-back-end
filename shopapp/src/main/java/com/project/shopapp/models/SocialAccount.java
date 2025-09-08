@@ -1,10 +1,7 @@
 package com.project.shopapp.models;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Table(name = "social_accounts")
@@ -12,6 +9,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
+@Builder
+
 public class SocialAccount {
 
     @Id
@@ -26,7 +25,7 @@ public class SocialAccount {
 
     @Column(name = "name", length = 150)
     private String name;
-    
+
     @Column(name = "email", length = 150)
     private String email;
 
