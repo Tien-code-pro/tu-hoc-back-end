@@ -55,6 +55,7 @@ public class CategoryController {
     public ResponseEntity<String> updateCategory(
             @PathVariable long id,
             @Valid @RequestBody CategoryDTO categoryDTO
+            // RequestBody để khi truyền dữ liệu vào body nó sẽ nhận theo kiểu raw + json
     ) {
         categoryService.updateCategory(id, categoryDTO);  // đẩy vào DB
         return ResponseEntity.ok("Cập nhật Category successfully " + id);

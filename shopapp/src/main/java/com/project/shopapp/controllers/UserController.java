@@ -1,7 +1,9 @@
 package com.project.shopapp.controllers;
 
 import com.project.shopapp.dtos.*;
+import com.project.shopapp.services.IUserService;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -13,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/v1/users")
+@RequestMapping("${api.prefix}/users")
+@RequiredArgsConstructor
 public class UserController {
+    private final IUserService userService;
+
     @PostMapping("/register")
     public ResponseEntity<?> createUser(
             @Valid @RequestBody
@@ -33,6 +38,7 @@ public class UserController {
                 return ResponseEntity.badRequest().body("PassWord does not match");
 
             }
+            userService.createUser(userDTO);
             return ResponseEntity.ok(" Register successfully");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -43,8 +49,9 @@ public class UserController {
     public ResponseEntity<String> createUser(@Valid @RequestBody UserLoginDTO userLoginDTO) {
         // kiểm tra thông tin đăng nhập và sinh token
         // trả về token trong response
+        String token = userService.login(userLoginDTO.getPhoneNumber(), userLoginDTO.getPassword());
 
-        return ResponseEntity.ok(" some token");
+        return ResponseEntity.ok(token);
     }
 
 
