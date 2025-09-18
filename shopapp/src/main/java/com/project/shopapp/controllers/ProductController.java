@@ -4,9 +4,14 @@ import com.project.shopapp.dtos.ProductDTO;
 import com.project.shopapp.dtos.ProductImageDTO;
 import com.project.shopapp.models.Product;
 import com.project.shopapp.models.ProductImage;
+import com.project.shopapp.responses.ProductListResponse;
+import com.project.shopapp.responses.ProductResponse;
 import com.project.shopapp.services.IProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -139,11 +144,23 @@ public class ProductController {
     // Hiện tất cả các products
     @GetMapping("")
     // http://localhost:8088/api/v1/products
-    public ResponseEntity<String> getProducts(
+    public ResponseEntity<ProductListResponse> getProducts(
             @RequestParam("page") int page,
             @RequestParam("limit") int limit
     ) {
-        return ResponseEntity.ok(String.format("Đây là getProducts, page = %d, limit = %d  ", page, limit));
+        // tạo pageTable từ thông tin trang và giới hạn
+        PageRequest pageRequest = PageRequest.of(
+                page, limit,
+                Sort.by("createdAt").descending());
+        Page<ProductResponse> productPage = productService.getAllProducts(pageRequest);
+        // Lấy tổng số trang
+        int totalPages = productPage.getTotalPages();
+        List<ProductResponse> products = productPage.getContent();
+        return ResponseEntity.ok(ProductListResponse
+                .builder()
+                .products(products)
+                .totalPages(totalPages)
+                .build());
     }
 
     // Lấy product theo ID
