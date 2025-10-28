@@ -167,16 +167,27 @@ public class ProductController {
     // Lấy product theo ID
     @GetMapping("/{id}")
     // http://localhost:8088/api/v1/products/6
-    public ResponseEntity<String> getProductById(
-            @PathVariable("id") String productId
+    public ResponseEntity<?> getProductById(
+            @PathVariable("id") Long productId
     ) {
-        return ResponseEntity.ok("Đây là getProducts with ID = " + productId);
+        try {
+            Product existingProduct = productService.getProductById(productId);
+            return ResponseEntity.ok(ProductResponse.fromProduct(existingProduct));
+//            return ResponseEntity.ok((existingProduct));
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     // Xóa product
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteProduct(@PathVariable long id) {
-        return ResponseEntity.ok(String.format("Xóa Products with id = %d", id));
+        try {
+            productService.deleteProduct(id);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+        return ResponseEntity.ok(String.format("Product with id = %d delete successfully", id));
     }
 
     // fake dữ liệu product
@@ -204,6 +215,19 @@ public class ProductController {
         }
 
         return ResponseEntity.ok("Fake products create successfully");
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> updateProduct(
+            @PathVariable long id,
+            @RequestBody ProductDTO productDTO
+    ) {
+        try {
+            Product updateProduct = productService.updateProduct(id, productDTO);
+            return ResponseEntity.ok(updateProduct);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
     }
 
 }
